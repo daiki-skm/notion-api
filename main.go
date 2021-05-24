@@ -39,8 +39,6 @@ func main()  {
 	blockId = os.Getenv("BLOCK_ID")
 	client := &http.Client{}
 	get(client)
-	//secret_TgXSc7s7va7eLguyGFrbWXvA43kiERcqJD35dyz2yU9
-	//bb56e8e9c51249ecaa4d0f90fc94b3de
 }
 
 func get(client *http.Client) {
