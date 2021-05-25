@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
@@ -12,50 +13,36 @@ const (
 	apiVersion    = "2021-05-13"
 )
 
-//func (c *Client) newRequest(ctx context.Context, method, url string, body io.Reader) (*http.Request, error) {
-//	req, err := http.NewRequestWithContext(ctx, method, baseURL+url, body)
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", c.apiKey))
-//	req.Header.Set("Notion-Version", apiVersion)
-//	//req.Header.Set("User-Agent", "go-notion/"+clientVersion)
-//
-//	if body != nil {
-//		req.Header.Set("Content-Type", "application/json")
-//	}
-//
-//	return req, nil
-//}
-
-var (
-	clientSecret string
-	blockId string
-)
-
-func main()  {
-	clientSecret = os.Getenv("NOTION_KEY")
-	blockId = os.Getenv("BLOCK_ID")
-	client := &http.Client{}
-	get(client)
+type Key struct {
+	ClientSecret string
+	BlockId string
 }
 
-func get(client *http.Client) {
-	req, err := http.NewRequest("GET", baseURL+"/blocks/"+blockId+"/children", nil)
+func main()  {
+	key := &Key{
+		os.Getenv("NOTION_KEY"),
+		os.Getenv("BLOCK_ID"),
+	}
+	client := &http.Client{}
+	get(client, key)
+}
+
+func get(client *http.Client, key *Key) {
+	req, err := http.NewRequest("GET", baseURL+"/blocks/"+key.BlockId+"/children", nil)
 	if err != nil {
-		println("error")
+		log.Fatal(err)
 		return
 	}
 
-	// User-Agentを設定
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", clientSecret))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", key.ClientSecret))
+	req.Header.Set("Notion-Version", apiVersion)
 
 	resp, err := client.Do(req)
 	if err != nil {
-		println("error")
+		log.Fatal(err)
 		return
 	}
+
 	defer resp.Body.Close()
 
 	execute(resp)
