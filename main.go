@@ -50,7 +50,6 @@ func get(client *http.Client, key *Key) {
 
 func execute(resp *http.Response) {
 	// response bodyを文字列で取得するサンプル
-	// ioutil.ReadAllを使う
 	b, err := ioutil.ReadAll(resp.Body)
 	if err == nil {
 		println(string(b))
