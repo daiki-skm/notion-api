@@ -1,8 +1,7 @@
 # notion-api
 
 # Setup
-Please go to here to create Secrets ID and Database ID.
-https://developers.notion.com/docs
+Please go to [here](https://developers.notion.com/docs) to create Secrets ID and Database ID.
 
 # Usage
 ```
