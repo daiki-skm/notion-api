@@ -100,7 +100,7 @@ type NotionAPIStruct struct {
 func Decode(resp *http.Response, args []string) {
 	defer resp.Body.Close()
 
-	if args[0] != "paragraph" && args[0] != "todo" && args[0] != "bullet" && args[0] != "toggle" {
+	if len(args) != 0 && args[0] != "paragraph" && args[0] != "todo" && args[0] != "bullet" && args[0] != "toggle" {
 		println("Please check args.")
 		return
 	}
