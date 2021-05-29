@@ -100,13 +100,10 @@ type NotionAPIStruct struct {
 func Decode(resp *http.Response, args []string) {
 	defer resp.Body.Close()
 
-	// response bodyを文字列で取得するサンプル
-	//b, err := ioutil.ReadAll(resp.Body)
-	//if err != nil {
-	//	log.Fatal(err)
-	//	return
-	//}
-	//println(string(b))
+	if args[0] != "paragraph" && args[0] != "todo" && args[0] != "bullet" && args[0] != "toggle" {
+		println("Please check args.")
+		return
+	}
 
 	apistruct := NotionAPIStruct{}
 
@@ -129,7 +126,7 @@ func Decode(resp *http.Response, args []string) {
 			}
 		case "bulleted_list_item":
 			for _, hit2 := range hit.BulletedListItem.Text {
-				if len(args) == 0 || args[0] == "bulletlist" {
+				if len(args) == 0 || args[0] == "bullet" {
 					println(hit2.PlainText)
 				}
 			}
@@ -139,8 +136,6 @@ func Decode(resp *http.Response, args []string) {
 					println(hit2.PlainText)
 				}
 			}
-		default:
-			println("default")
 		}
 	}
 }
