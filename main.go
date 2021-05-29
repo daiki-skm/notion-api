@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"net/http"
 	"os"
 
@@ -13,7 +14,11 @@ func main()  {
 		ClientSecret: os.Getenv("NOTION_KEY"),
 		BlockId:      os.Getenv("BLOCK_ID"),
 	}
+
+	flag.Parse()
+	args := flag.Args()
+
 	client := &http.Client{}
 	resp := request.Request(client, key)
-	decode.Decode(resp)
+	decode.Decode(resp, args)
 }

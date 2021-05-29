@@ -30,7 +30,5 @@ func Request(client *http.Client, key *Key) *http.Response {
 		log.Fatal(err)
 	}
 
-	//defer resp.Body.Close()
-
 	return resp
 }
